@@ -184,7 +184,6 @@ public class Controller extends HttpServlet {
 				userId = (String) userSession.getAttribute("userId");
 				location = "home";
 				int itemId = Integer.parseInt((String) request.getParameter("itemId"));				
-				User user = DAO.getUser(Integer.parseInt(userId));
 				Item item = DAO.getItem(itemId);
 				DAO.deleteItem(item);				
 			}
