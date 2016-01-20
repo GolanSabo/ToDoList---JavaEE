@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="il.ac.shenkar.todolist.Item" table="items">
+		<id name="id" type="int" column="ID" >
+			<generator class="increment"/>
+		</id>
+		<property type="int" name="userId">
+			<column name="userId"/>
+		</property>
+		<property type="string" name="description">
+			<column name="description"/>
+		</property>
+		<property type="string" name="dueDate">
+			<column name="dueDate"/>
+		</property>
+		<property type="int" name="done">
+			<column name="done"/>
+		</property>
+		
+	</class>
+</hibernate-mapping>

@@ -85,6 +85,10 @@ body {padding-top:20px;
  	font-size: 26px;
  }
 
+.myBtn{
+	margin-left: 20px;	
+}
+
 .navbar-nav.navbar-right .btn { 
 	position: relative; 
 	z-index: 2; 
@@ -162,7 +166,7 @@ body {padding-top:20px;
 	margin: 0 auto;
 }
 
-h1{
+h1, h3{
 	color: white;
 }
 

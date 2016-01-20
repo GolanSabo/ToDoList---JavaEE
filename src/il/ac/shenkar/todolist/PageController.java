@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/PageController")
+
 public class PageController extends HttpServlet {
 
 	/**
@@ -33,7 +33,7 @@ public class PageController extends HttpServlet {
 		HibernateToDoListDAO$ DAO = HibernateToDoListDAO$.MODULE$;
 		RequestDispatcher dispatcher = null;
 		String userId = request.getParameter("userId");
-		String location = request.getParameter("location");
+		String location = request.getParameter("where");
 		User user = null;
 		if (location.equals("home")){
 			try {
@@ -42,8 +42,12 @@ public class PageController extends HttpServlet {
 				request.setAttribute("exception", e.getMessage());
 				dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
 			}
+			Cookie cookie = new Cookie("userName", user.getUserName());
+			cookie.setMaxAge(60 * 30);
+			response.addCookie(cookie);
 			ArrayList<Item> items =  DAO.getItems(user.getId());
    			user.setItemCount(DAO.getItemCount(user.getId()));
+   			request.setAttribute("user", user);
    			request.setAttribute("items", items);
 		}
     	dispatcher = getServletContext().getRequestDispatcher("/" + location +".jsp");

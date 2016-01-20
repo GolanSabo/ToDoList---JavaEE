@@ -15,7 +15,7 @@
 	<script src="includes/script.js"></script>
 	<title>Change Details</title>
 </head>
-<body>
+<body id="account">
 <header>
 	 <!-- Second navbar for search -->
     <nav class="navbar navbar-inverse">
@@ -59,12 +59,12 @@
 		<div class="row">
 			<div id="wrapper">
 				<h1>Account Settings </h1>
-				<a href="Controller?action=changePass">Change Password</a>
 				<form action="Controller" method="post" class="form-search">
 			            <fieldset>
 			                <input type="text" id="name" name="fullName" class="input-lg form-control" placeholder="Name"><br>
 			                <input type="email" id="email" name="email" class="input-lg form-control" placeholder="Email"><br><br>
 			                <button type="submit" class="btn btn-warning pull-left" name="action" value="changeAccount">Change Details</button>
+			                <a class="myBtn btn btn-warning pull-left" href="Controller?action=changePass">Change Password</a>
 			            </fieldset>
 			    </form>
 			    <br>

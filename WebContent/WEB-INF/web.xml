@@ -1,22 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
-  <servlet>
-    <servlet-name>MyServlet</servlet-name>
-    <servlet-class>il.ac.shenkar.todolist.Controller</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MyServlet</servlet-name>
-    <url-pattern>/ToDoList/*</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>MyPageServlet</servlet-name>
-    <servlet-class>il.ac.shenkar.todolist.PageController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MyPageServlet</servlet-name>
-    <url-pattern>/ToDoList/*</url-pattern>
-  </servlet-mapping>
+	<welcome-file-list> 
+		<welcome-file>index.html</welcome-file> 
+		<welcome-file>index.htm</welcome-file> 
+		<welcome-file>index.jsp</welcome-file> 
+		<welcome-file>default.html</welcome-file> 
+		<welcome-file>default.htm</welcome-file> 
+		<welcome-file>default.jsp</welcome-file> 
+	</welcome-file-list> 
+	
+  	<servlet>
+    	<servlet-name>Controller</servlet-name>
+    	<servlet-class>il.ac.shenkar.todolist.Controller</servlet-class>
+    	<load-on-startup>1</load-on-startup>
+  	</servlet>
+  
+  	<servlet>
+	    <servlet-name>PageController</servlet-name>
+    	<servlet-class>il.ac.shenkar.todolist.PageController</servlet-class>
+    	<load-on-startup>2</load-on-startup>
+  	</servlet>
+
+	<servlet-mapping>
+	    <servlet-name>Controller</servlet-name>
+  	  	<url-pattern>/Controller</url-pattern>
+  	</servlet-mapping>
+  	  
+  	<servlet-mapping>
+    	<servlet-name>PageController</servlet-name>
+    	<url-pattern>/PageController</url-pattern>
+  	</servlet-mapping>
+  
 </web-app>
