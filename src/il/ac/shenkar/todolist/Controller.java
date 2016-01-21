@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -70,11 +68,11 @@ public class Controller extends HttpServlet {
 				request.setAttribute("items", items);
 				dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
 			}
+			dispatcher.forward(request, response);
 		} catch (ToDoListException e){
 			request.setAttribute("exception", e.getMessage());
             dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
-		} finally {
-			dispatcher.forward(request, response);
+            dispatcher.forward(request, response);
 		}
 	}
 
@@ -124,7 +122,7 @@ public class Controller extends HttpServlet {
 		    			throw new ToDoListException("User already exists");		    		
 		    		}
 		    	}	
-	    		DAO.addUser(newUser);			    	
+	    		DAO.addUser(newUser);
 		    	userSession = request.getSession();
 		    	userSession.setMaxInactiveInterval(30 * 60);
 		    	userId = String.valueOf(newUser.getId());
@@ -190,12 +188,12 @@ public class Controller extends HttpServlet {
 				Item item = new Item(itemName, Integer.parseInt(userId));
 				item.setDueDate(itemDate);					
 				DAO.addItem(item);					
-			}	
+			}
+		    response.sendRedirect("PageController?userId=" + userId + "&where=" + location);
 	    } catch (ToDoListException e){
 	    	request.setAttribute("exception", e.getMessage());
             dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
             dispatcher.forward(request, response);
-	    }
-	    response.sendRedirect("PageController?userId=" + userId + "&where=" + location);	
+	    }	
 	}
 }

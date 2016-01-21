@@ -42,7 +42,13 @@ public class PageController extends HttpServlet {
 				request.setAttribute("exception", e.getMessage());
 				dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
 			}
-			Cookie cookie = new Cookie("userName", user.getUserName());
+			Cookie cookie = null;
+			if(user.getFullName() == null){
+				cookie = new Cookie("userName", user.getUserName());
+			}
+			else{
+				cookie = new Cookie("userName", user.getFullName());
+			}
 			cookie.setMaxAge(60 * 30);
 			response.addCookie(cookie);
 			ArrayList<Item> items =  DAO.getItems(user.getId());
