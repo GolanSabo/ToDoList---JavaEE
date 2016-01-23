@@ -102,12 +102,6 @@ public class User implements Serializable {
 		this.itemCount = itemCount;
 	}
 	
-	public String toJson(User user){
-		Gson gson = new Gson();
-		String json = gson.toJson(user, this.getClass());
-		return json; 
-	}
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", fullName=" + fullName + ", password=" + password + ", email="
