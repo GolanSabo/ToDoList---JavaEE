@@ -39,9 +39,6 @@ public class Controller extends HttpServlet {
 				dispatcher = getServletContext().getRequestDispatcher("/index.html");
 			}
 			else if (path.endsWith("deleteUser")) {
-	        	dispatcher = getServletContext().getRequestDispatcher("/removeuser.jsp");         
-	        }
-			else if (path.endsWith("Confirm")){
 				userSession = request.getSession();
 	        	int userId = Integer.valueOf((String) userSession.getAttribute("userId"));
 	        	ArrayList<Item> items = DAO.getItems(userId);
@@ -51,7 +48,7 @@ public class Controller extends HttpServlet {
 	        	DAO.deleteUser(userId);
 	        	userSession.setMaxInactiveInterval(0);
 	    		dispatcher = getServletContext().getRequestDispatcher("/index.html");
-			}
+	        }
 			else if (path.endsWith("changePass")){
 		    	dispatcher = getServletContext().getRequestDispatcher("/passchange.jsp");
 			}
@@ -115,7 +112,7 @@ public class Controller extends HttpServlet {
 		    else if(action.equals("Sign up")){
 				String userName = request.getParameter("userName");
 			    String password = request.getParameter("password");
-		    	User newUser = new User(userName, password);		    	
+		    	User newUser = new User(userName, password);
 		    	ArrayList<User> users = DAO.getUsers();
 		    	for(User u: users){
 		    		if(newUser.getUserName().equals(u.getUserName())){

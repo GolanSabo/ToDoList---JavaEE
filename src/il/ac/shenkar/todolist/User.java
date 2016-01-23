@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.google.gson.Gson;
+
 @Entity
 @Table(name="to_do_list")
 public class User implements Serializable {
@@ -99,12 +101,16 @@ public class User implements Serializable {
 	public void setItemCount(long itemCount) {
 		this.itemCount = itemCount;
 	}
+	
+	public String toJson(User user){
+		Gson gson = new Gson();
+		String json = gson.toJson(user, this.getClass());
+		return json; 
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", fullName=" + fullName + ", password=" + password + ", email="
 				+ email + ", auth=" + auth + "]";
 	}
-
-	
 }
