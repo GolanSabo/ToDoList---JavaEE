@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.google.gson.Gson;
 
 @Entity
 @Table(name="to_do_list")
