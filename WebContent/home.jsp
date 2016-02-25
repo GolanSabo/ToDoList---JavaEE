@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List, il.ac.shenkar.todolist.*" %>
 <jsp:useBean id="items" type="java.util.List<Item>" scope="request" />
-<<jsp:useBean id="user" class="il.ac.shenkar.todolist.User" scope="request"/>
+<jsp:useBean id="user" class="il.ac.shenkar.todolist.User" scope="request"/>
+<%@ taglib prefix="ex" uri="WEB-INF/custom.tld"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -61,7 +62,8 @@
 	<div class="container">
 	<div id="wrapper">
 	<% Cookie[] cookies = request.getCookies(); %>
-	<h1>Welcome <%
+	<h1>
+		<ex:Welcome/> <%
 					for (Cookie cookie : cookies){
 						if (cookie.getName().equals("userName")){
 							out.println(cookie.getValue());
