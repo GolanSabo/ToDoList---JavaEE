@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,7 +62,19 @@ public class Controller extends HttpServlet {
 			else if(path.endsWith("backToHome")){
 				userSession = request.getSession();
 	        	int userId = Integer.valueOf((String) userSession.getAttribute("userId"));
-				ArrayList<Item> items =  DAO.getItems(userId);
+	        	User user = null;
+	        	try {
+					user = DAO.getUser(userId);
+				} catch (ToDoListException e) {
+					request.setAttribute("exception", e.getMessage());
+					dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
+				}
+				Cookie cookie = new Cookie("userName", user.getUserName());
+				cookie.setMaxAge(60 * 30);
+				response.addCookie(cookie);
+				ArrayList<Item> items =  DAO.getItems(user.getId());
+	   			user.setItemCount(DAO.getItemCount(user.getId()));
+	   			request.setAttribute("user", user);
 				request.setAttribute("items", items);
 				dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
 			}
