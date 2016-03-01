@@ -37,6 +37,17 @@ public class Controller extends HttpServlet {
 			}
 			else if(path.endsWith("logout")){
 				userSession.setMaxInactiveInterval(0);
+	        	Cookie[] cookies = request.getCookies();
+	        	if (cookies != null) {
+	        		 
+	                for (int i = 0; i < cookies.length; i++) {
+	         
+	                    Cookie cookie = cookies[i];
+	                    cookies[i].setValue(null);
+	                    cookies[i].setMaxAge(0);
+	                    response.addCookie(cookie);
+	                }
+	            }
 				dispatcher = getServletContext().getRequestDispatcher("/index.html");
 			}
 			else if (path.endsWith("deleteUser")) {
@@ -47,6 +58,17 @@ public class Controller extends HttpServlet {
 	        		DAO.deleteItem(i);
 	        	}
 	        	DAO.deleteUser(userId);
+	        	Cookie[] cookies = request.getCookies();
+	        	if (cookies != null) {
+	        		 
+	                for (int i = 0; i < cookies.length; i++) {
+	         
+	                    Cookie cookie = cookies[i];
+	                    cookies[i].setValue(null);
+	                    cookies[i].setMaxAge(0);
+	                    response.addCookie(cookie);
+	                }
+	            }
 	        	userSession.setMaxInactiveInterval(0);
 	    		dispatcher = getServletContext().getRequestDispatcher("/index.html");
 	        }
@@ -56,7 +78,8 @@ public class Controller extends HttpServlet {
 			else if(path.endsWith("accountSettings")){
 				dispatcher = getServletContext().getRequestDispatcher("/account.jsp");
 			}
-			else if(path.endsWith("updateItem")){
+			else if(path.endsWith("update")){
+				String itemId = (String)request.getParameter("itemId");
 				dispatcher = getServletContext().getRequestDispatcher("/itemsettings.jsp");
 			}
 			else if(path.endsWith("backToHome")){
@@ -117,6 +140,16 @@ public class Controller extends HttpServlet {
 			   		userSession = request.getSession();
 			   		userSession.setMaxInactiveInterval(-1);
 			   		userSession.setAttribute("userId", userId);
+			   		Cookie cookie = new Cookie("userName", user.getUserName());
+					cookie.setMaxAge(60 * 30);
+					response.addCookie(cookie);
+					ArrayList<Item> items =  DAO.getItems(user.getId());
+		   			user.setItemCount(DAO.getItemCount(user.getId()));
+		   			request.setAttribute("user", user);
+					request.setAttribute("items", items);
+					dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
+		            dispatcher.forward(request, response);
+			   		
 			   	}
 			    else{
 			    	throw new ToDoListException("User not authenticated");
@@ -136,8 +169,17 @@ public class Controller extends HttpServlet {
 		    	userSession = request.getSession();
 		    	userSession.setMaxInactiveInterval(30 * 60);
 		    	userId = String.valueOf(newUser.getId());
-		    	location = "home";
+		    	Cookie cookie = new Cookie("userName", newUser.getUserName());
+				cookie.setMaxAge(60 * 30);
+				response.addCookie(cookie);
+				ArrayList<Item> items =  DAO.getItems(newUser.getId());
+				newUser.setItemCount(DAO.getItemCount(newUser.getId()));
+	   			request.setAttribute("user", newUser);
+	   			request.setAttribute("items", items);
 		    	userSession.setAttribute("userId", userId);
+		    	dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
+		    	dispatcher.forward(request, response);
+
 		    }
 		    else if(action.equals("changePass")){
 	    		userSession = request.getSession();
@@ -150,7 +192,7 @@ public class Controller extends HttpServlet {
 	    			if(user.getPassword().equals(oldPass)){
 	    				user.setPassword(newPass);
 	  	    			DAO.updateUser(user);
-				    	location = "account";
+				    	dispatcher = getServletContext().getRequestDispatcher("/account.jsp");
 	    			}
 	    			else{
 	    				throw new ToDoListException("Wrong password");
@@ -163,12 +205,22 @@ public class Controller extends HttpServlet {
 			else if(action.equals("updateItemDone")){
 				userSession = request.getSession();
 	        	userId = (String) userSession.getAttribute("userId");
-	        	location = "home";
-	        	String itemName = request.getParameter("name");
-	        	String itemDueDate = request.getParameter("dueDate");
+	        	String itemName = request.getParameter("desc");
+	        	String itemDueDate = request.getParameter("date");
+	        	String itemId = request.getParameter("itemId");
 	        	Item item = new Item(itemName, Integer.parseInt(userId));
-				item.setDueDate(itemDueDate);
+	        	item.setDueDate(itemDueDate);
+	        	item.setId(Integer.parseInt(itemId));
 	        	DAO.updateItem(item);
+	        	User user = DAO.getUser(Integer.parseInt(userId));
+	        	Cookie cookie = new Cookie("userName", user.getUserName());
+				cookie.setMaxAge(60 * 30);
+				response.addCookie(cookie);
+				ArrayList<Item> items =  DAO.getItems(user.getId());
+				user.setItemCount(DAO.getItemCount(user.getId()));
+	   			request.setAttribute("user", user);
+	   			request.setAttribute("items", items);
+	        	dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
 			}
 			else if(action.equals("changeAccount")){
 				userSession = request.getSession();
@@ -179,27 +231,58 @@ public class Controller extends HttpServlet {
 				User user = DAO.getUser(Integer.parseInt(userId));
 				user.setFullName(fullName);
 				user.setEmail(email);
-				DAO.updateUser(user);				
+				DAO.updateUser(user);
+				Cookie cookie = new Cookie("userName", user.getUserName());
+				cookie.setMaxAge(60 * 30);
+				response.addCookie(cookie);
+				ArrayList<Item> items =  DAO.getItems(user.getId());
+				user.setItemCount(DAO.getItemCount(user.getId()));
+	   			request.setAttribute("user", user);
+	   			request.setAttribute("items", items);
+				dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
+				dispatcher.forward(request, response);
 			}
-			else if(action.equals("delete")){
+			else if(action.equals("delete")){//delete item
 				userSession = request.getSession();
 				userId = (String) userSession.getAttribute("userId");
-				location = "home";
 				int itemId = Integer.parseInt((String) request.getParameter("itemId"));				
 				Item item = DAO.getItem(itemId);
-				DAO.deleteItem(item);				
+				DAO.deleteItem(item);	
+				User user = DAO.getUser(Integer.parseInt(userId));
+				Cookie cookie = new Cookie("userName", user.getUserName());
+				cookie.setMaxAge(60 * 30);
+				response.addCookie(cookie);
+				ArrayList<Item> items =  DAO.getItems(user.getId());
+				user.setItemCount(DAO.getItemCount(user.getId()));
+	   			request.setAttribute("user", user);
+	   			request.setAttribute("items", items);
+				dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
+			}
+			else if(action.equals("update")){
+				String itemId = (String)request.getParameter("itemId");
+				request.setAttribute("item", itemId);
+				dispatcher = getServletContext().getRequestDispatcher("/itemsettings.jsp");
 			}
 			else if(action.equals("done")){
 				userSession = request.getSession();
 				String itemName = request.getParameter("itemName");
 				String itemDate = request.getParameter("itemDate");
 				userId = (String) userSession.getAttribute("userId");
-				location = "home";
 				Item item = new Item(itemName, Integer.parseInt(userId));
 				item.setDueDate(itemDate);					
-				DAO.addItem(item);					
+				DAO.addItem(item);
+				User user = DAO.getUser(Integer.parseInt(userId));
+				Cookie cookie = new Cookie("userName", user.getUserName());
+				cookie.setMaxAge(60 * 30);
+				response.addCookie(cookie);
+				ArrayList<Item> items =  DAO.getItems(user.getId());
+				user.setItemCount(DAO.getItemCount(user.getId()));
+	   			request.setAttribute("user", user);
+	   			request.setAttribute("items", items);
+				dispatcher = getServletContext().getRequestDispatcher("/home.jsp");
 			}
-		    response.sendRedirect("PageController?userId=" + userId + "&where=" + location);
+            dispatcher.forward(request, response);
+		   // response.sendRedirect("PageController?userId=" + userId + "&where=" + location);
 	    } catch (ToDoListException e){
 	    	request.setAttribute("exception", e.getMessage());
             dispatcher = getServletContext().getRequestDispatcher("/error.jsp");

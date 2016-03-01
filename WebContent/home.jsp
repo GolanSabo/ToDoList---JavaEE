@@ -89,16 +89,26 @@
 	                            <div class="col-xs-1">
 	                                <i class="fa fa-trash-o fa-fw"></i>
 	                            </div>
-	                            <div class="col-xs-5">
+	                            <div class="col-xs-6 col-md-4">
 	                                <form method="post" action="Controller" enctype="application/x-www-form-urlencoded" >
-	                                	
 										<input type="hidden" name="itemId" value="<%= String.valueOf(i.getId())%>">
 										<input type="submit" name="action" value="delete" class="btn btn-warning">
 									</form>
+	                            </div> 
+	                        </div>
+	                        <div class="fluid-row">
+	                            <div class="col-xs-1">
+	                                <i class="fa fa-pencil-square-o"></i>
 	                            </div>
+	                            <div class="col-xs-2">
+	                                <form method="post" action="Controller" enctype="application/x-www-form-urlencoded" >
+										<input type="hidden" name="itemId" value="<%= String.valueOf(i.getId())%>">
+										<input type="submit" name="action" value="update" class="btn btn-warning">
+									</form>
+	                            </div> 
 	                        </div>
 	                    </div>
-	                </div>
+	                </div>    
 	            </li>       
 					<%	
 							}
@@ -111,8 +121,7 @@
 					%>
 	        </ul>
 	      </div>
-		</div>
+	</div>
 </div>
-	
 </body>
 </html>

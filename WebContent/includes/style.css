@@ -17,6 +17,10 @@ body {padding-top:20px;
 	background: #ccccff;
 }
 
+.fa{
+	line-height: 30px;
+}
+
 #homepage{
 	 overflow-x: hidden; /* Prevent scroll on narrow devices */
 	 padding-top: 100px;
@@ -25,6 +29,14 @@ body {padding-top:20px;
 #wrapper{
 	margin: 0px auto;
 	width: 80%;
+}
+
+#wrapper h2{
+	color: #FFF;
+}
+
+#settings{
+	color: #FFF;
 }
 
 #header{
@@ -57,6 +69,14 @@ body {padding-top:20px;
  #errorPage .center{
  	width: 80%;
  	margin 0px auto;
+ }
+ 
+ .form-horizontal .text-center{
+ 	background: #FFFFFF;
+ }
+ 
+ .form-horizontal fieldset{
+ 	background: #f5f5f5;
  }
  
  #loginPage{

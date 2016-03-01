@@ -38,9 +38,9 @@
             				<li><a href="Controller?action=accountSettings">Account Settings</a></li>
             				<li><a href="Controller?action=logout">Logout</a></li>
           				</ul>
-        		</div><!-- /.navbar-collapse -->
-      		</div><!-- /.container -->
-	    </nav><!-- /.navbar -->
+        			</div><!-- /.navbar-collapse -->
+      			</div><!-- /.container -->
+	   		</nav><!-- /.navbar -->
 	</header>
 	<div class="container">
 		<div class="row">

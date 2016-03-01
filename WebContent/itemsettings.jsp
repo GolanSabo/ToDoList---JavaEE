@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.lang.*"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,16 +43,17 @@
 	</header>
 	<div id="wrapper">
 	<h2>Item Setting</h2>
-	<form method="post" action="Controller" class="form-inline">
+	<form id="settings" method="post" action="Controller" class="form-inline">
 		 <div class="form-group">
 			<label>Description</label>
-			<input type="text" class="form-control" id="exampleInputName2" placeholder="Description">
+			<input name="desc" type="text" class="form-control" id="exampleInputName2" placeholder="Description">
 		</div>
 		 <div class="form-group">
 			<label>Due Date</label>
-			<input type="date" class="form-control" id="exampleInputDueDate2" placeholder="MM-dd-yyyy">
+			<input name="date" type="date" class="form-control" id="exampleInputDueDate2" placeholder="MM-dd-yyyy">
 		</div>
-		<input type="submit" name="action" value="updateItemDone" class="btn btn-default">
+		<input type="hidden" name="itemId" value=${item}>
+		<button type="submit" name="action" value="updateItemDone" class="btn btn-default">Submit</button>
 	</form>
 	</div>
 </body>
